@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+var debug = require('debug')('barrage');
+var app = require('../app');
+var socket = require('./socket.js');
+
+app.set('port', process.env.PORT || 8080);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+var socket_client = new Object();
+var num_client = 0;
+
+socket(server, socket_client, num_client);
