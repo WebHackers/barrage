@@ -12,38 +12,40 @@ $(document).ready(function(){
         console.log('disconnect');
     });
 
-    var barNumber = 0;
+    var number = 0;
     var win_width = $(window).width();
     var win_height = $(window).height();
+    var random = parseInt(Math.random()*1000);
 
-    socket.on('bar', function (data) {console.log(data);
+    socket.on('bar', function (data) {
+        var span = '<span id="Barrage_get_width" style="position:fixed;left:0;top:-100px;font-size:40px;font-weight:bold;">'+data+'</span>';
+        $('body').append(span);
+        var width = $('#Barrage_get_width').width();
+        $('#Barrage_get_width').remove();
         var top = parseInt(Math.random()*win_height*0.5);
-        var id = 'id_'+(++barNumber);
-        for(var i=0;i<data.length;i++) {
-            //
-        }
-        var width = data.replace(/[^\x00-\xff]/gi, "--").length*35;
-        var bar = '<div id="'+id+'" style="z-index:99;pointer-events:none;'+
+        var id = 'id_'+(++number)+'_'+random;
+        var speed = win_width/width*1000;
+        
+        var bar = '<span id="'+id+'" style="z-index:99;pointer-events:none;'+
                   'position:fixed;'+
                   'left:'+win_width+'px;'+
                   'top:'+top+'px;'+
                   'width:'+width+'px;'+
                   'font-size:40px;'+
-                  'font-family:微软雅黑;'+
                   'font-weight:bold;'+
-                  'text-fill-color:#fff;'+
+                  '-moz-text-fill-color:#fff;'+
                   '-webkit-text-fill-color:#fff;'+
-                  'text-stroke:2px #000;'+
-                  '-webkit-text-stroke:2px #000;">'+data+'</div>';
+                  '-moz-text-stroke:2px #000;'+
+                  '-webkit-text-stroke:2px #000;">'+data+'</span>';
                   
         $('body').append(bar);
         $('#'+id).animate({
-            left:0
+            left:-width
         },
-        5000,
+        speed,
         'linear',
         function() {
-            //$(this).remove();
+            $(this).remove();
         });
     });
 });
