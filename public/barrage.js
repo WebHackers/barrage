@@ -5,7 +5,10 @@ $(document).ready(function(){
         socket = io.connect("http://"+window.location.host);
 
         socket.on('connect', function () {
-            socket.emit('open',$('title').val());
+            socket.emit('open',{
+                title: $(document).attr("title"),
+                url: window.location.href
+            });
             console.log('connect');
         });
 
