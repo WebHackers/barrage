@@ -38,9 +38,8 @@ $(document).ready(function(){
                       
             $('body').append(bar);
             bar = $('#'+id);
-            var speed = parseInt(win_width/bar.width()*2000);
-            if(speed>6000)speed = 6000;
-            if(speed<3000)speed = 3000;
+            var speed = parseInt(10000-bar.width()*10);
+            if(speed<2000)speed = 2000;
 
             bar.animate({
                 left:-bar.width()

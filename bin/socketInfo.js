@@ -1,0 +1,4 @@
+
+exports.room = {};
+
+exports.socket = {};

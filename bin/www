@@ -2,6 +2,7 @@
 var debug = require('debug')('barrage');
 var app = require('../app');
 var socket = require('./socket.js');
+var socketInfo = require('./socketInfo.js');
 
 app.set('port', process.env.PORT || 8080);
 
@@ -9,8 +10,6 @@ var server = app.listen(app.get('port'), function() {
   debug('Express server listening on port ' + server.address().port);
 });
 
-var room_list = new Object();
-var socket_client = new Object();
 var roomId = 100;
 
-socket(server, room_list, socket_client, roomId);
+socket(server, socketInfo.room, socketInfo.socket, roomId);

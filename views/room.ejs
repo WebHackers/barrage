@@ -8,20 +8,25 @@
     <script type="text/javascript" src="/javascripts/jquery2.1.0.min.js"></script>
     <script type="text/javascript" src="/javascripts/ionic.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/javascripts/index.js"></script>
+    <script type="text/javascript" src="/javascripts/room.js"></script>
   </head>
 
-  <body style="padding: 44px 0 0 0;">
-    <div class="bar bar-header bar-light" id="head" style="position:fixed;">
-      <h1 class="title">弹幕装载完毕</h1>
+  <body>
+    <div id="screen" style="width:100%;background-color:#555;">
+      
     </div>
 
-    <div class="list" style="overflow-y:auto;overflow-x:hidden;">
+    <div class="list">
   	  
   	</div>
-
-    <div class="bar bar-footer bar-light" id="footer" style="position:fixed;">
-      <div class="title">Footer</div>
+    
+    <div class="bar bar-footer item-input-inset bar-light">
+      <label class="item-input-wrapper">
+        <input id="barrage" type="search" placeholder="喷射毁灭一切的白光吧">
+      </label>
+      <button class="button button-clear" id="biu">
+        biu~
+      </button>
     </div>
   </body>
 </html>
