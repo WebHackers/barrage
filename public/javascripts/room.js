@@ -2,17 +2,16 @@ $(document).ready(function(){
     var number = 0;
     var win_width = $(window).width();
     var win_height = $(window).height();
-    $('#screen').height(parseInt(win_height*0.4));
-    $('.list').height(parseInt(win_height*0.6)-44);
+    $('#screen').height(parseInt(win_height*0.35));
+    $('.list').height(parseInt(win_height*0.65)-68);
     var width = $('#screen').width();
     var height = $('#screen').height();
+    var roomId = window.location.href.split('/room/', 2)[1].split('/', 2)[0];
 
 	socket = io.connect("http://"+window.location.host);
 
 	socket.on('connect', function () {
-        var path = window.location.href.split('/room/', 2)[1];
-
-        socket.emit('enter', path);
+        socket.emit('enter', roomId);
         console.log('connect');
     });
 
@@ -20,12 +19,17 @@ $(document).ready(function(){
         console.log('disconnect');
     });
 
+    socket.on('flash', function (data) {
+        $('#member').html('当前:'+data+'人');
+        console.log(data);
+    });
+
     socket.on('msg', function (data) {
         console.log(data);
     });
 
     socket.on('bar', function (data) {
-        $(".list").prepend('<p style="margin:10px;">'+data+"</p>");
+        $(".list").prepend('<li class="item" style="">'+data+"</li>");
 
         var top = parseInt(Math.random()*height*0.9);
         var id = 'id_'+(++number);
@@ -34,7 +38,6 @@ $(document).ready(function(){
                   'position:fixed;'+
                   'left:'+width+'px;'+
                   'top:'+top+'px;'+
-                  'color:#fff;'+
                   'font-size:14px;'+
                   'font-weight:bold;'+
                   '">'+data+'</nobr>';

@@ -1,61 +1,68 @@
 
-var protect = require('./protect.js');
+var func = require('./func.js');
 
-module.exports = function(server, room_list, socket_client, roomId) {
+module.exports = function(server, room, socket, roomId) {
 		var io = require('socket.io');
 		var io = io.listen(server);
 
 		io.sockets.on('connection', function (client) {
 			var id;
+			var isSet = false;
 			client.on('open', function (data) {
-				if(room_list[data.url]) {
-					var room = room_list[data.url];
-					socket_client['r_'+room.id][client.id] = client;
-					socket_client['r_'+room.id].member++;
-					console.log('room:'+room.id+' member:'+socket_client['r_'+room.id].member);
-					id = room.id;
+				if(isSet) {
+					return;
+				}
+				if(room[data.url]) {
+					id = room[data.url].id;
+					socket[id][client.id] = client;
+					socket[id].member++;
+					func.flash(id, socket);
+					console.log(id+' member:'+socket[id].member);
 				}
 				else
 				{
-					var room = {
-						title: data.title,
-						id: ++roomId
-					};
-					room_list[data.url] = room;
+					room[data.url] = {};
+					room[data.url].title = data.title;
+					room[data.url].id = 'r_'+(++roomId);
+					id = room[data.url].id;
 
-					if(socket_client['r_'+room.id]) {
-						socket_client['r_'+room.id][client.id] = client;
-						socket_client['r_'+room.id].member++;
-						console.log('room:'+room.id+' member:'+member);
+					if(socket[id]) {
+						socket[id][client.id] = client;
+						socket[id].member++;
+						console.log(id+' member:'+socket[id].member);
 					}
 					else {
-						socket_client['r_'+room.id] = {member:1};
-						socket_client['r_'+room.id][client.id] = client;
-						console.log('room:'+room.id+' member:'+socket_client['r_'+room.id].member);
+						socket[id] = {member: 1};
+						socket[id][client.id] = client;
+						console.log(id+' member:'+socket[id].member);
 					}
-					
-					id = room.id;
 				}
-				console.log(room_list[data.url]);
+				console.log(room[data.url]);
+				isSet = true;
 			});
 
 			client.on('enter', function (data) {
-				if(isNaN(data)||data<=100||parseInt(data)!=data) {
-					client.emit('msg', '房间不存在额~~ ╮（╯_╰）╭');
-					console.log('房间不存在额~~ ╮（╯_╰）╭');
+				if(isSet) {
+					return;
+				}
+				if(!(/^r_[1-9]{1,1}[0-9]{2,}/.test(data))) {
+					client.emit('msg', 'false');
+					console.log('Wrong enter');
 					return;
 				}
 
-				if(socket_client['r_'+data]) {
+				if(socket[data]) {
 					id = data;
-					socket_client['r_'+id][client.id] = client;
-					socket_client['r_'+id].member++;
+					socket[id][client.id] = client;
+					socket[id].member++;
+					func.flash(id, socket);
 					console.log('user:'+client.id+' enter room '+id);
-					console.log('room:'+id+' member:'+socket_client['r_'+id].member);
+					console.log(id+' member:'+socket[id].member);
+					isSet = true;
 				}
 				else {
-					client.emit('msg', '房间不存在额~~ ╮（╯_╰）╭');
-					console.log('房间不存在额~~ ╮（╯_╰）╭');
+					client.emit('msg', 'false');
+					console.log('Wrong enter');
 				}
 			});
 
@@ -63,16 +70,17 @@ module.exports = function(server, room_list, socket_client, roomId) {
 			console.log('connect:'+client.id);
 			
 			client.on('disconnect', function () {
-				if(socket_client['r_'+id]) {
-					delete socket_client['r_'+id][client.id];
-					socket_client['r_'+id].member--;
-					console.log('room:'+id+' member:'+socket_client['r_'+id].member);
-					if(socket_client['r_'+id].member==0) {
-						delete socket_client['r_'+id];
-						for(var r in room_list) {
-							if(room_list[r].id==id) {
-								delete room_list[r];
-								console.log('delete room '+id);
+				if(socket[id]) {
+					delete socket[id][client.id];
+					socket[id].member--;
+					func.flash(id, socket);
+					console.log(id+' member:'+socket[id].member);
+					if(socket[id].member==0) {
+						delete socket[id];
+						for(var r in room) {
+							if(room[r].id==id) {
+								delete room[r];
+								console.log('delete '+id);
 							}
 						}
 					}
@@ -81,11 +89,11 @@ module.exports = function(server, room_list, socket_client, roomId) {
 			});
 			
 			client.on('bar', function (data) {
-				data = protect(data);
-				if(socket_client['r_'+id]) {
-					for(var c in socket_client['r_'+id]) {
-						if(socket_client['r_'+id][c]&&c!='member') {
-							socket_client['r_'+id][c].emit('bar', data);
+				data = func.protect(data);
+				if(socket[id]) {
+					for(var c in socket[id]) {
+						if(socket[id][c]&&c!='member') {
+							socket[id][c].emit('bar', data);
 						}
 					}
 				}

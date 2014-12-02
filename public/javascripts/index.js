@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 	function addItem(info) {
 		var item = 
-			'<a class="item" href="./room/'+info.id+'">'+
+			'<a class="item" href="./room/'+info.id+'/'+info.title+'">'+
 	        '<h2>'+info.title+'</h2>'+
 	        '<p style="float:left;">弹幕小队:'+info.id+'</p>'+
 	        '<p style="float:right;">人数:'+info.member+'</p>'+
