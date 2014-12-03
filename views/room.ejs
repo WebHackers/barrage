@@ -12,24 +12,39 @@
   </head>
 
   <body>
-    <div id="screen" style="width:100%;color:#fff5ee;background-color:#555;">
+    <div id="screen">
       
     </div>
 
-    <div id="info" style="width:100%;padding:2px 5px 2px 5px;color:#fff0f5;background-color:#444;">
+    <div id="info">
       <span style="max-width:60%;overflow:hidden;"><%= title %></span>
       <span>--No.<%= id %></span>
       <span id="member" style="float:right;">---&nbsp;&nbsp;</span>
     </div>
 
-    <div class="list" style="overflow-y:auto;overflow-x:hidden;">
+    <div id="list">
   	  
   	</div>
+
+    <div id="color-board">
+      <div id="color-item-1" style="background-color:white;"></div>
+      <div id="color-item-2" style="background-color:yellow;"></div>
+      <div id="color-item-3" style="background-color:green;"></div>
+      <div id="color-item-4" style="background-color:red;"></div>
+      <div id="color-item-5" style="background-color:pink;"></div>
+      <div id="color-item-6" style="background-color:blue;"></div>
+      <div id="color-item-7" style="background-color:black;"></div>
+    </div>
     
     <div class="bar bar-footer item-input-inset bar-light">
+      <div class="button button-light" id="color-select">
+        
+      </div>
+
       <label class="item-input-wrapper">
-        <input id="barrage" type="search" placeholder="喷射毁灭一切的白光吧">
+        <input id="barrage" type="search" placeholder="喷射毁灭一切的白光吧"/>
       </label>
+      
       <button class="button button-clear" id="biu">
         biu~
       </button>

@@ -22,19 +22,17 @@ $(document).ready(function(){
         var random = parseInt(Math.random()*1000);
 
         socket.on('bar', function (data) {
-            var top = parseInt(Math.random()*win_height*0.5);
+            var top = parseInt((win_height-50)*(data.top/100));
             var id = 'id_'+(++number)+'_'+random;
             
             var bar = '<nobr id="'+id+'" style="z-index:99;pointer-events:none;'+
                       'position:fixed;'+
                       'left:'+win_width+'px;'+
                       'top:'+top+'px;'+
+                      'color:'+data.color+';'+
                       'font-size:40px;'+
                       'font-weight:bold;'+
-                      '-moz-text-fill-color:#fff;'+
-                      '-webkit-text-fill-color:#fff;'+
-                      '-moz-text-stroke:2px #000;'+
-                      '-webkit-text-stroke:2px #000;">'+data+'</nobr>';
+                      '">'+data.barrage+'</nobr>';
                       
             $('body').append(bar);
             bar = $('#'+id);

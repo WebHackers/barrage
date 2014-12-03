@@ -3,7 +3,7 @@ $(document).ready(function(){
     var win_width = $(window).width();
     var win_height = $(window).height();
     $('#screen').height(parseInt(win_height*0.35));
-    $('.list').height(parseInt(win_height*0.65)-68);
+    $('#list').height(parseInt(win_height*0.65)-68);
     var width = $('#screen').width();
     var height = $('#screen').height();
     var roomId = window.location.href.split('/room/', 2)[1].split('/', 2)[0];
@@ -29,18 +29,19 @@ $(document).ready(function(){
     });
 
     socket.on('bar', function (data) {
-        $(".list").prepend('<li class="item" style="">'+data+"</li>");
+        $("#list").prepend('<li class="item" style="">'+data.barrage+"</li>");
 
-        var top = parseInt(Math.random()*height*0.9);
+        var top = parseInt((height-15)*(data.top/100));
         var id = 'id_'+(++number);
         
         var bar = '<nobr id="'+id+'" style="z-index:1;pointer-events:none;'+
                   'position:fixed;'+
                   'left:'+width+'px;'+
                   'top:'+top+'px;'+
+                  'color:'+data.color+';'+
                   'font-size:14px;'+
                   'font-weight:bold;'+
-                  '">'+data+'</nobr>';
+                  '">'+data.barrage+'</nobr>';
                   
         $('#screen').append(bar);
         bar = $('#'+id);
@@ -66,9 +67,24 @@ $(document).ready(function(){
             $('#barrage').val('');
             return;
         }
-
-		socket.emit('bar',barrage);
+        var top = parseInt(Math.random()*100);
+        var color = $('#color-select').css('background-color');
+		socket.emit('bar',{top:top,color:color,barrage:barrage});
 		$('#barrage').val('');
 	});
+
+    $('#color-select').click(function() {
+        if($('#color-board').css('top')=='10px') {
+            $('#color-board').css('top', '-50px');
+        }
+        else {
+            $('#color-board').css('top', '10px');
+        }
+    });
+
+    $('div[id^="color-item"]').click(function() {
+        $('#color-board').css('top', '10px');
+        $('#color-select').css('background-color',$(this).css('background-color'));
+    });
 
 });

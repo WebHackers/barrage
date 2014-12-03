@@ -89,7 +89,7 @@ module.exports = function(server, room, socket, roomId) {
 			});
 			
 			client.on('bar', function (data) {
-				data = func.protect(data);
+				data.barrage = func.protect(data.barrage);
 				if(socket[id]) {
 					for(var c in socket[id]) {
 						if(socket[id][c]&&c!='member') {
