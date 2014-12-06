@@ -3,7 +3,8 @@ $(document).ready(function(){
     var win_width = $(window).width();
     var win_height = $(window).height();
     $('#screen').height(parseInt(win_height*0.35));
-    $('#list').height(parseInt(win_height*0.65)-68);
+    $('#list').height(parseInt(win_height*0.65)-66);
+    $('#color-board').css('top', parseInt(win_height*0.35)+24-45);
     var width = $('#screen').width();
     var height = $('#screen').height();
     var roomId = window.location.href.split('/room/', 2)[1].split('/', 2)[0];
@@ -73,17 +74,22 @@ $(document).ready(function(){
 		$('#barrage').val('');
 	});
 
+    //$('#color-board').css('display', 'none');
+    var show = false;
     $('#color-select').click(function() {
-        if($('#color-board').css('top')=='10px') {
-            $('#color-board').css('top', '-50px');
+        if(show) {
+            $('#color-board').css('display', 'none');
+            show = false;
         }
         else {
-            $('#color-board').css('top', '10px');
+            $('#color-board').css('display', '');
+            show = true;
         }
     });
 
     $('div[id^="color-item"]').click(function() {
-        $('#color-board').css('top', '10px');
+        $('#color-board').css('display', 'none');
+        show = false;
         $('#color-select').css('background-color',$(this).css('background-color'));
     });
 

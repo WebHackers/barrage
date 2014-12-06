@@ -11,10 +11,8 @@
     <script type="text/javascript" src="/javascripts/room.js"></script>
   </head>
 
-  <body>
-    <div id="screen">
-      
-    </div>
+  <body style="position:relative;">
+    <div id="screen"></div>
 
     <div id="info">
       <span style="max-width:60%;overflow:hidden;"><%= title %></span>
@@ -22,21 +20,27 @@
       <span id="member" style="float:right;">---&nbsp;&nbsp;</span>
     </div>
 
-    <div id="list">
-  	  
-  	</div>
+    <div class="item item-input-inset" style="padding:5px;">
+      <div class="button button-small button-light" id="color-select"></div>
+      <label class="item-input-wrapper">
+        <input id="barrage" type="text" placeholder="喷射毁灭一切的白光吧">
+      </label>
+      <button class="button button-small button-clear" id="biu">Biu~</button>
+    </div>
 
-    <div id="color-board">
-      <div id="color-item-1" style="background-color:white;"></div>
-      <div id="color-item-2" style="background-color:yellow;"></div>
-      <div id="color-item-3" style="background-color:green;"></div>
-      <div id="color-item-4" style="background-color:red;"></div>
-      <div id="color-item-5" style="background-color:pink;"></div>
-      <div id="color-item-6" style="background-color:blue;"></div>
-      <div id="color-item-7" style="background-color:black;"></div>
+    <div id="list"></div>
+
+    <div id="color-board" style="display:none;">
+      <div id="color-item-1" style="background-color:#eee;"></div>
+      <div id="color-item-2" style="background-color:#eeee00;"></div>
+      <div id="color-item-3" style="background-color:#00aa00;"></div>
+      <div id="color-item-4" style="background-color:#ff5511;"></div>
+      <div id="color-item-5" style="background-color:#ff44aa ;"></div>
+      <div id="color-item-6" style="background-color:#0066ff ;"></div>
+      <div id="color-item-7" style="background-color:#000;"></div>
     </div>
     
-    <div class="bar bar-footer item-input-inset bar-light">
+    <!--<div class="bar bar-footer item-input-inset bar-light">
       <div class="button button-light" id="color-select">
         
       </div>
@@ -48,6 +52,6 @@
       <button class="button button-clear" id="biu">
         biu~
       </button>
-    </div>
+    </div>-->
   </body>
 </html>
